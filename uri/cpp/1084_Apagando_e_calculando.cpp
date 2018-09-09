@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 int main(){
 	string num;
+		
 	int lenStr, lim, zeroEsq, aux, ant, index;
 	char maior;
 
@@ -17,13 +17,9 @@ int main(){
 		for (int j=0; j < aaa; j++){
 			maior = '0'-1;
 
-			// printf("--");
 			for (int i=lim; i > ant; i--){
 				if (num[i] >= maior) maior = num[i], index = i;
-				// printf("%d-", i);
 			}
-			// printf("-\n");
-			// printf("index = %d\n",index );
 
 			if (maior == '0'){
 				if (zeroEsq) printf("%c", maior);
