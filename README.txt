@@ -1,2 +1,1 @@
-Meu reposit�rio de c�digos
--_-
+Meu repositório de códigos para competição
