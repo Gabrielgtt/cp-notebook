@@ -1,12 +1,5 @@
 #include <bits/stdc++.h>
-#define f first
-#define s second
 using namespace std;
-
-typedef long long ll;
-typedef pair <int, int>  ii;
-typedef  pair <int, ii>  iii;
-
 
 const double EPS = 1e-9;
 const double PI = 3.141592653589793;
@@ -83,30 +76,7 @@ struct Poly {
 	}
 };
 
-Point <double> V[6];
-
 int main(){
-	int n, d;
-	scanf("%d %d", &n, &d);
-
-	int ps;
-	scanf("%d", &ps);
-	int x, y;
-
-	V[0] = Point <double> (d, 0);
-	V[1] = Point <double> (n, n-d);
-	V[2] = Point <double> (n-d, n);
-	V[3] = Point <double> (0, d);
-
-	Poly <double> ret = Poly <double> (V, 4);
-
-	for (int i=0; i<ps; i++){
-		scanf("%d %d", &x, &y);
-		Point <double> p5 = Point <double> (x, y);
-
-		bool res = ret.inside(p5);
-		printf("%s\n", (res) ? "YES" : "NO");
-	}
 
 	return 0;
 }

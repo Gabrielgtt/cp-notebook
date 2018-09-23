@@ -1,23 +1,22 @@
 #include <bits/stdc++.h>
-#define ll long long
 #define f first
 #define s second
-#define ii pair <int, int> 
-#define iii pair <int, ii> 
-#define MAXN 12
 using namespace std;
+
+typedef long long ll;
+typedef pair <int, int>  ii;
+typedef  pair <int, ii>  iii;
 
 
 int main(){
 	int n;
 	scanf("%d", &n);
-
-	int res = 0;
-	while(n > 0){
-		res++;
-		n /= 2;
+	int num;
+	bool res = true;
+	for (int i=0; i<n; i++){
+		scanf("%d", &num);
+		if (num) res = false;
 	}
-
-	printf("%d\n", res);
+	printf("%s\n", res ? "EASY" : "HARD");
 	return 0;
 }

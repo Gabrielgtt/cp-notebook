@@ -1,33 +1,36 @@
 #include <bits/stdc++.h>
+#define f first
+#define s second
 using namespace std;
 
 typedef long long ll;
-const ll INF = 1e17;
-const int MAXN = 1000100;
+typedef pair <int, int>  ii;
+typedef  pair <int, ii>  iii;
 
-typedef pair <int, int> ii;
+const int MAXN = 1000;
 
-char num1[MAXN];
-char num2[MAXN];
+char num[MAXN];
+int n;
 
 int main(){
-	int n;
 	scanf("%d", &n);
 
-	scanf("%s", num1);
-	scanf("%s", num2);
+	scanf("%s", num);
+	int soma = 0;
+	bool res = false;
+	for (int i=0; i<n; i++){
+		soma += num[i] - '0';
 
-	int res = 0;
-	for (int i=0; i<n-1; i++){
-		if (num1[i] != num2[i] && num1[i+1] != num2[i+1] && num1[i] != num1[i+1]){
-			swap(num1[i], num1[i+1]);
-			res++;
-		} else if (num1[i] != num2[i]){
-			num1[i] == num1[i] == '0' ? '1' : '0';
-			res++;
+		int suma = 0;
+		for (int j=i+1; j<n; j++){
+			suma += num[j] - '0';
+			if (suma > soma) suma -= soma;
 		}
+
+		if (soma == suma) res = true;
 	}
-	if (num1[n-1] != num2[n-1]) res++;
-	printf("%d\n", res);
+
+	printf("%s\n", res ? "YES" : "NO");
+
 	return 0;
 }
