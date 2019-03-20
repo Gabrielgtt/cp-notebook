@@ -1,82 +1,130 @@
 #include <bits/stdc++.h>
+#define ll long long
 using namespace std;
 
 const double EPS = 1e-9;
 const double PI = 3.141592653589793;
 
-template <class T>
 struct Point{
-	T x, y;
+	int x, y;
 	Point() : x(0), y(0) {}
-	Point(T _x, T _y) : x(_x), y(_y) {}
-	bool operator == (Point <T> p){
-		return p.x == this->x && p.y == this->y;
+	Point(int a, int b) : x(a), y(b) {}
+	bool operator == (const Point& p) const {
+		return p.x == x && p.y == y;
+	}
+
+	bool operator < (const Point& p) const {
+		if (x == p.x) return y > p.y;
+		return x < p.x;
+	}
+
+	Point operator - (const Point& p) const {
+		return Point(x - p.x, y - p.y);
+	}
+
+	Point vetor(Point o) {
+		return o - (*this);
 	}
 };
 
-template <class T>
-struct Vetor {
-	T x, y;
-	Vetor() : x(0), y(0) {}
-	Vetor(T _x, T _y) : x(_x), y(_y) {}
-	Vetor(Point <T> a, Point <T> b) : x(b.x - a.x), y(b.y - a.y) {}
-};
-
-template <class T>
-double dot(Vetor <T> a, Vetor <T> b){
+int dot(Point a, Point b){
     return (a.x*b.x) + (a.y*b.y);
 }
  
-template <class T>
-double cross(Vetor <T> a, Vetor <T> b){
+int cross(Point a, Point b){
     return (a.x*b.y) - (a.y*b.x);
 }
 
-template <class T>
-bool ccw(Point <T> a, Point <T> o, Point <T> b){
-	Vetor <T> oa = Vetor <T> (o, a);
-	Vetor <T> ob = Vetor <T> (o, b);
-
-	long long res = cross(oa, ob);
-
-	if (res < 0) return false;
-	if (res > 0) return true;
-	if (res == 0) return true; // Mudar para false se não quiser colinear
+int ccw(Point a, Point b, Point c){
+	Point ab = a.vetor(b);
+	Point ac = a.vetor(c);
+	return cross(ab, ac);
 }
 
-template <class T>
-double angle(Point <T> a, Point <T> o, Point <T> b){
-	Vetor <T> oa = Vetor <T> (o, a);
-    Vetor <T> ob = Vetor <T> (o, b);
-    return acos(dot(oa, ob) / sqrt(dot(oa, oa)*dot(ob, ob)));
+double angle(Point a, Point o, Point b){
+	Point oa = o.vetor(a);
+    Point ob = o.vetor(b);
+    return acos(dot(oa, ob)*1.0 / sqrt(dot(oa, oa)*dot(ob, ob)));
 }
 
-template <class T>
 struct Poly {
-	vector <Point <T>> pontos;
-	Poly(Point <T>* arrPontos, int size){
-		for (int i=0; i<size; i++){
-			pontos.emplace_back(arrPontos[i]);
-		}
-		pontos.emplace_back(arrPontos[0]);
-	}
-	bool inside(Point <T> p){
-		if (pontos.size() == 0) return false;
-		double sum = 0;
+	vector <Point> pts;
 
-		for (int i=0; i<pontos.size()-1; i++){
-			if (p == pontos[i]) return true;
-			if (ccw(pontos[i], p, pontos[i+1])){
-				sum += angle(pontos[i], p, pontos[i+1]);
+	Poly(Point* arrps, int size){
+		for (int i=0; i<size; i++){
+			pts.emplace_back(arrps[i]);
+		}
+		pts.emplace_back(arrps[0]);
+	}
+
+	vector <Point> convexHull() {
+		vector <Point> chain(((int) pts.size()) + 10);
+		int sz = 0;
+		
+		pts.pop_back();
+		sort(pts.begin(), pts.end());
+
+		for (int i=0; i<pts.size(); i++) {
+			while (sz >= 2 && ccw(chain[sz-2], chain[sz-1], pts[i]) > 0) sz--;
+			chain[sz++] = pts[i];
+		}
+		int ref = sz;
+		for (int i=pts.size()-2; i>=0; i--) {
+			while (sz-ref >= 1 && ccw(chain[sz-2], chain[sz-1], pts[i]) > 0) sz--;
+			chain[sz++] = pts[i];
+		}
+
+		pts.emplace_back(pts[0]);
+		chain.resize(sz);
+		return chain;
+	}
+
+	bool tiraConvexHull() {
+		if (pts.size() < 3) return false;
+		map <Point, bool> vis;
+		vector <Point> hull = convexHull();
+		for (Point p : hull) vis[p] = true;
+		vector <Point> resto;
+		for (Point p : pts) if (!vis[p]) resto.emplace_back(p);
+		if (resto.size() > 0) resto.emplace_back(resto[0]);
+		pts = resto;
+		return true;
+	}
+
+	bool inside(Point p){
+		if (pts.size() == 0) return false;
+		double sum = 0;
+		for (int i=0; i<pts.size()-1; i++){
+			if (p == pts[i]) return true;
+			if (ccw(pts[i], p, pts[i+1])){
+				sum += angle(pts[i], p, pts[i+1]);
 			} else {
-				sum -= angle(pontos[i], p, pontos[i+1]);
+				sum -= angle(pts[i], p, pts[i+1]);
 			}
 		}
 		return fabs(fabs(sum) - 2*PI) < EPS;
 	}
+
+	double area(){
+		double res = 0.0;
+		for (int i=0; i<pts.size()-1; i++){
+			res += cross(pts[i], pts[i+1]);
+		}
+		return fabs(res/2.0);
+	}
+
+	bool iConvex(){
+		int sz = pts.size();
+		if (sz <= 3) return false;
+		bool isLeft = ccw(pts[0], pts[1], pts[2]);
+		for (int i=1; i<sz-1; i++){
+			if (ccw(pts[i], pts[i+1], pts[(i+2 == sz) ? 1 : i+2]) != isLeft)
+				return false;
+		}
+		return true;
+	}
 };
 
 int main(){
-
 	return 0;
 }
