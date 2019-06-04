@@ -43,8 +43,8 @@ int ccw(Point a, Point b, Point c){
 
 double angle(Point a, Point o, Point b){
 	Point oa = o.vetor(a);
-    Point ob = o.vetor(b);
-    return acos(dot(oa, ob)*1.0 / sqrt(dot(oa, oa)*dot(ob, ob)));
+	Point ob = o.vetor(b);
+	return acos(1.0*dot(oa, ob) / sqrt(1.0*dot(oa, oa)*dot(ob, ob)));
 }
 
 struct Poly {
@@ -58,24 +58,22 @@ struct Poly {
 	}
 
 	vector <Point> convexHull() {
-		vector <Point> chain(((int) pts.size()) + 10);
-		int sz = 0;
-		
+		vector <Point> chain;
 		pts.pop_back();
 		sort(pts.begin(), pts.end());
-
+			
 		for (int i=0; i<pts.size(); i++) {
-			while (sz >= 2 && ccw(chain[sz-2], chain[sz-1], pts[i]) > 0) sz--;
-			chain[sz++] = pts[i];
+			while (chain.size() >= 2 && ccw(chain[chain.size()-2], chain[chain.size()-1], pts[i]) >= 0) chain.pop_back();
+			chain.emplace_back(pts[i]);
 		}
-		int ref = sz;
+		
+		int ref = chain.size();
 		for (int i=pts.size()-2; i>=0; i--) {
-			while (sz-ref >= 1 && ccw(chain[sz-2], chain[sz-1], pts[i]) > 0) sz--;
-			chain[sz++] = pts[i];
+			while (chain.size()-ref >= 1 && ccw(chain[chain.size()-2], chain[chain.size()-1], pts[i]) >= 0) chain.pop_back();
+			chain.emplace_back(pts[i]);
 		}
 
 		pts.emplace_back(pts[0]);
-		chain.resize(sz);
 		return chain;
 	}
 
@@ -125,6 +123,3 @@ struct Poly {
 	}
 };
 
-int main(){
-	return 0;
-}
