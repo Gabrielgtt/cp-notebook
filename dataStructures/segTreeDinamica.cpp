@@ -1,47 +1,47 @@
-#include <bits/stdc++.h>
-using namespace std;
+struct Node {
+	int v, l, r;
+	Node *left, *right;
 
-typedef long long ll;
+	Node(int val = 0) : left(NULL), right(NULL), v(val) {}
 
-struct node {
-	ll val, l, r;
-	node *left, *right;
+	inline void init(int a, int b){
+		l = a, r = b;
+	}
+	
+	void copy(Node o) {
+		v = o.v;
+	}
 
-	node() : left(NULL), right(NULL), val(0) {}
-
-	inline void init(ll a, ll b){
-		l = a; 
-		r = b;
+	Node merge(Node l, Node r) { // faca seu merge
+		Node res = Node();
+		res.v = l.v + r.v;
+		return res;
 	}
 
 	inline void extend() {
 		if (!left) {
-			ll m = l+(r-l)/2;
-			left = new node();
+			int m = l+(r-l)/2;
+			left = new Node();
 			left->init(l, m);
-			right = new node();
+			right = new Node();
 			right->init(m+1, r);
 		}
 	}
 
-	ll query(ll de, ll para){
-		if (para < l || r < de) return 0;
-		if (de <= l && r <= para) return val;
+	Node query(int de, int para){
+		if (para < l || r < de) return Node(); //elemento neutro
+		if (de <= l && r <= para) return Node(val); // copia do atual
 		extend();
-		return left->query(de, para) + right->query(de, para);
+		return Node().merge(left->query(de, para), right->query(de, para));
 	}
 
-	void update(ll idx){
+	void update(int idx, int val){
 		if (l == r){
-			val++;
+			copy(Node(val));
 			return;
 		}
 		extend();
 		(idx <= left->r ? left : right)->update(idx);
-		val = left->val + right->val;
+		copy(merge(*left, *right));
 	}
 };
-
-int main(){
-	return 0;
-}
