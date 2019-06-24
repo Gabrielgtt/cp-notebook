@@ -1,44 +1,49 @@
-#include <bits/stdc++.h>
-#define MAXN 5000000
-using namespace std;
-
 struct Node {
-	ll val;
+	int v;
 	Node *left, *right;
 
-	Node(const int value = 0) : left(NULL), right(NULL), val(value) {}
-	Node(Node *l, Node *r) : left(l), right(r), val(0) {
-		if (left) val += left->val;
-		if (right) val += right->val;
+	Node(int val = 0) : v(val) {}
+
+	Node merge(Node l, Node r) { // codar seu merge!!
+		Node res = Node();
+		res.v = l.v + r.v;
+		return res;
 	}
 
-} *segTree[MAXN];
+	void copy(Node de) { // setar para todos os param!!
+		v = de.v;
+	}
 
-Node* build(int a[], int tl, int tr){
-	if (tl == tr){
-		return new Node(a[tl]);
+	Node(Node *l, Node *r) {
+		left = l, right = r;
+		Node res = merge(*l, *r);
+		copy(res);
+	}
+
+} *seg[MAXN];
+
+Node query(Node *v, int l, int r, int tl = 1, int tr = n){ // definir n global!!
+	Node res = Node();
+	if (tl > r || tr < l) return res;
+	if (l <= tl && tr <= r) {
+		res.copy(*v);
+		return res;
 	}
 	int tm = tl + (tr-tl)/2;
-	return new Node(build(a, tl, tm), build(a, tm+1, tr));
+	return res.merge(query(v->left, l, r, tl, tm), query(v->right, l, r, tm+1, tr));
 }
 
-int query(Node* v, int tl, int tr, int l, int r){
-	if (r < tl || l > tr) return 0;
-	if (l <= tl && tr <= r) return v->val;
-	int tm = tl + (tr-tl)/2;
-	return query(v->left, tl, tm, l, r) 
-		 + query(v->right, tm+1, tr, l, r);
-}
-
-Node* update(Node* v, int tl, int tr, int pos, int value){
-	if (tl == tr) return new Node(value);
+Node *update(Node *v, int pos, int val, int tl = 1, int tr = n){
+	if (tl == tr) return new Node(val);
 	int tm = tl + (tr-tl)/2;
 	if (pos <= tm)
-		return new Node(update(v->left, tl, tm, pos, value), v->right);
-	else 
-		return new Node(v->left, update(v->right, tm+1, tr, pos, value));
+		return new Node(update(v->left, pos, tl, tm), v->right);
+	else  
+		return new Node(v->left, update(v->right, pos, tm+1, tr));
 }
 
-int main(){
-	return 0;
+Node *build(int tl = 1, int tr = n) {
+	if (tl == tr) return new Node();
+	int tm = tl + (tr-tl)/2;
+	return new Node(build(tl, tm), build(tm+1, tr));
 }
