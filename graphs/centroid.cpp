@@ -38,7 +38,6 @@ struct CentroidDecomposition {
 	int dfs(int u, int p, int n) {
 		for (int v : grafo[u])
 			if (v != p && !sat[v] and sub[v] > n/2) return dfs(v, u, n);
-
 		return u;
 	}
 

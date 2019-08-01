@@ -6,8 +6,9 @@ using namespace std;
 
 // Sparse table de min
 
+// ------------------------------------------------------------------------------ 
 int n, logs[MAXN];
-struct sparseTable {
+struct SparseTable {
 	int table[MAXLOG][MAXN];
 
 	void build(int array[]) {
@@ -26,3 +27,4 @@ struct sparseTable {
 		return min(table[logs[r-l]][l], table[logs[r-l]][r - (1 << logs[r-l]) + 1]);
 	}
 } tb;
+// ------------------------------------------------------------------------------ 14979141717

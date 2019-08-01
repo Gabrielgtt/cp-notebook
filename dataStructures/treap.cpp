@@ -56,8 +56,7 @@ pnode join(pnode l, pnode r) {
     l->r = join(l->r, rt);
     return l;
 }
+
 int main() {
 
-
-	return 0;
 }
