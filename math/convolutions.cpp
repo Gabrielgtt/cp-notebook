@@ -108,7 +108,3 @@ vector<ll> convolution(vector<ll> a, vector<ll> b, int op) {
     FFT(a, op, true);
     return a;
 }
-
-int main(){
-    return 0;
-}
