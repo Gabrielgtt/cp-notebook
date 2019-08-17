@@ -1,74 +1,8 @@
 #include <bits/stdc++.h>
-#define ll long long
 using namespace std;
 
 const double EPS = 1e-9;
 const double PI = 3.141592653589793;
-
-ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a%b); }
-
-struct Point {
-	ll x, y;
-	Point(ll a=0, ll b=0) : x(a), y(b) {}
-	bool operator == (const Point& p) const { return p.x == x && p.y == y; }
-
-	bool operator < (const Point& p) const { return x == p.x ? y < p.y : x < p.x; }
-
-	Point operator - (const Point& p) const { return Point(x - p.x, y - p.y); }
-
-	Point vetor(const Point& o) const { return o - (*this); }
-
-	ll dot(const Point& b) const { return (x*b.x) + (y*b.y); }
-
-	ll cross(const Point& b) const { return (x*b.y) - (y*b.x); }
-
-	// ccw !	
-	ll cross(const Point& a, const Point& b) const { return (a - *this).cross(b - *this); }
-};
-
-
-struct Line {
-	ll A, B, C;
-
-	Line() {}
-	Line(const Point& de, const Point& pa) {
-		A = de.y - pa.y;
-		B = pa.x - de.x;
-		C = -A * de.x - B * de.y;
-	}
-};
-
-struct Seg {
-	Point A, B;
-
-	Seg() {}	
-	Seg(Point a, Point b) : A(a), B(b) { if (B < A) swap(A, B); }
-
-	ll numIntegerPoints() { return gcd(abs(A.x - B.x), abs(A.y - B.y)) + 1LL; }
-
-	bool in(const Point& pt) {
-		return min(A.x, B.x) <= pt.x 
-			&& pt.x <= max(A.x, B.x) 
-			&& min(A.y, B.y) <= pt.y 
-			&& pt.y <= max(A.y, B.y) && pt.cross(A, B) == 0;
-	}
-
-	bool inter(Seg& o, Point& res){
-		Line l1 = Line(A, B), l2 = Line(o.A, o.B);
-
-		ll dx = Point(l1.C, l1.B).cross(Point(l2.C, l2.B));
-		ll dy = Point(l1.A, l1.C).cross(Point(l2.A, l2.C));
-		ll d = Point(l1.A, l1.B).cross(Point(l2.A, l2.B));
-
-		if (d == 0 || (dx % d != 0) || (dy % d != 0)) return false;
-		
-		res = Point(-dx / d, -dy / d);
-		
-		if (!in(res) || !o.in(res)) return false;
-		return true;
-	}
-}; 
-
 
 struct Poly {
 	vector <Point> pts;
@@ -146,16 +80,3 @@ struct Poly {
 	}
 };
 
-
-int main() {
-	// TESTES
-	
-	Point a = Point(0, 0);
-	Point b = Point(1, 0);
-	Point c = Point(0, 1);
-	
-	double angulo = a.angle(c, b) * 180.0 / PI;
-	assert(angulo == 90.0);
-	
-	return 0;
-}
