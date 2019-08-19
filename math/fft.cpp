@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
- //      BLACK BOX START
+// BLACK BOX START
+// ------------------------------------------------------------------------------ 
 void fft(vector<cd> & a, bool invert) {
     int n = a.size();
 
@@ -34,7 +35,8 @@ void fft(vector<cd> & a, bool invert) {
             x /= n;
     }
 }
- //      BLACK BOX END
+// ------------------------------------------------------------------------------ 13377167525
+// BLACK BOX END
 
 vector<int> multiply(vector<int> const& a, vector<int> const& b) {
     vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());

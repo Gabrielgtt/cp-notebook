@@ -9,10 +9,9 @@ int main() {
 	while(scanf("%c", &a) != EOF) {
 		if (a == ' ' || a == '\n') continue;
 		hash += (1LL * a * base) % primo;
-		base *= baseasf;
+		base *= base;
 		base %= primo;
 	}
 	printf("%lld\n", hash);
-
 	return 0;
 }

@@ -30,6 +30,7 @@ vector<ll> other_convolution(vector<ll> a) {
  
 // Meu código:
  
+// ------------------------------------------------------------------------------ 
 vector<ll> SSC(vector<ll> &a, vector<ll> &b) {
     vector<ll> fa[LOGN+1], fb[LOGN+1], fc[LOGN+1], ret(MAXN);
  
@@ -62,20 +63,26 @@ vector<ll> SSC(vector<ll> &a, vector<ll> &b) {
  
     return ret;
 }
+// ------------------------------------------------------------------------------ 18422716226
 
 // ** FST / SOS DP **
  
+// ------------------------------------------------------------------------------ 
 void FST(vector<ll> &a, bool inverse = false) {
     for (int b = 0; b < LOGN; b++)
         for (int i = 0; i < MAXN; i++)
             if ((i & (1 << b)) == 0)
                 a[i + (1 << b)] += a[i] * (inverse ? -1 : 1);
 }
- 
+// ------------------------------------------------------------------------------ 4328704132
+
+
 // ===============================================================
  
 // ** Fast Walsh-Hadamard Transform **
+/// in convolution op is 0 for XOR, 1 for AND, 2 for OR
  
+// ------------------------------------------------------------------------------ 
 int T[3][2][2][2] = {
     { { {1,  1}, {1, -1} }, { {1,  1}, {1, -1} } }, /// xor
     { { {0,  1}, {1,  1} }, { {-1, 1}, {1,  0} } }, /// and
@@ -99,7 +106,6 @@ void FFT(vector<ll> &a, int op, bool inverse = false) {
             a[i] >>= LOGN;
 }
  
-/// op is 0 for XOR, 1 for AND, 2 for OR
 vector<ll> convolution(vector<ll> a, vector<ll> b, int op) {
     FFT(a, op, false);
     FFT(b, op, false);
@@ -108,3 +114,4 @@ vector<ll> convolution(vector<ll> a, vector<ll> b, int op) {
     FFT(a, op, true);
     return a;
 }
+// ------------------------------------------------------------------------------ 21212486588

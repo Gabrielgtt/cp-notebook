@@ -1,3 +1,4 @@
+// ------------------------------------------------------------------------------ 
 double simpson_integration(double a, double b, const int N = 1000){
 	double h = (b - a) / N;
 	double s = f(a) + f(b);
@@ -8,3 +9,4 @@ double simpson_integration(double a, double b, const int N = 1000){
 	s *= h / 3;
 	return s;
 }
+// ------------------------------------------------------------------------------ 6194924342

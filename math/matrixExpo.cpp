@@ -4,6 +4,7 @@
 #define MAXN 1000
 using namespace std;
 
+// ------------------------------------------------------------------------------ 
 ll soma(ll a, ll b) { return (a + b) % MOD; }
 
 ll mult(ll a, ll b) { return (a * b) % MOD; }
@@ -22,7 +23,7 @@ void mult(ll m1[][MAXN], ll m2[][MAXN], int n) {
 
 void matrixExpo(ll m[][MAXN], ll e, int n) {
 	e--;
-	if (i == 0) printf("retornar neutro!\n");
+	if (e == 0) printf("retornar neutro!\n");
 	ll base[MAXN][MAXN];
 	for (int i=0; i<n; i++)
 		for (int j=0; j<n; j++) 
@@ -33,3 +34,4 @@ void matrixExpo(ll m[][MAXN], ll e, int n) {
 		e >>= 1;
 	}
 }
+// ------------------------------------------------------------------------------ 19057841552
