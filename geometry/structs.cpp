@@ -5,11 +5,14 @@ using namespace std;
 const double EPS = 1e-9;
 const double PI = 3.141592653589793;
 
+typedef long long T;
+
 ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a%b); }
 
+// -----------------------------------------------------------------------------
 struct Point {
-	ll x, y;
-	Point(ll a=0, ll b=0) : x(a), y(b) {}
+	T x, y;
+	Point(T a=0, T b=0) : x(a), y(b) {}
 	bool operator == (const Point& p) const { return p.x == x && p.y == y; }
 
 	bool operator < (const Point& p) const { return x == p.x ? y < p.y : x < p.x; }
@@ -18,17 +21,22 @@ struct Point {
 
 	Point vetor(const Point& o) const { return o - (*this); }
 
-	ll dot(const Point& b) const { return (x*b.x) + (y*b.y); }
+	T dot(const Point& b) const { return (x*b.x) + (y*b.y); }
 
-	ll cross(const Point& b) const { return (x*b.y) - (y*b.x); }
+	T cross(const Point& b) const { return (x*b.y) - (y*b.x); }
 
 	// ccw !	
-	ll cross(const Point& a, const Point& b) const { return (a - *this).cross(b - *this); }
+	T cross(const Point& a, const Point& b) const { return (a - *this).cross(b - *this); }
+	
+	double angle(Point& a, Point& b) const {
+		a = vetor(a), b = vetor(b);
+		return acos(1.0*a.dot(b) / sqrt(1.0*a.dot(a)*b.dot(b)));
+	}
 };
-
+// ----------------------------------------------------------------------------- 19928866531
 
 struct Line {
-	ll A, B, C;
+	T A, B, C;
 
 	Line() {}
 	Line(const Point& de, const Point& pa) {
@@ -38,13 +46,15 @@ struct Line {
 	}
 };
 
+
+// ----------------------------------------------------------------------------- 
 struct Seg {
 	Point A, B;
 
 	Seg() {}	
 	Seg(Point a, Point b) : A(a), B(b) { if (B < A) swap(A, B); }
 
-	ll numIntegerPoints() { return gcd(abs(A.x - B.x), abs(A.y - B.y)) + 1LL; }
+	T numIntegerPoints() { return gcd(abs(A.x - B.x), abs(A.y - B.y)) + 1LL; }
 
 	bool in(const Point& pt) {
 		return min(A.x, B.x) <= pt.x 
@@ -56,9 +66,9 @@ struct Seg {
 	bool inter(Seg& o, Point& res){
 		Line l1 = Line(A, B), l2 = Line(o.A, o.B);
 
-		ll dx = Point(l1.C, l1.B).cross(Point(l2.C, l2.B));
-		ll dy = Point(l1.A, l1.C).cross(Point(l2.A, l2.C));
-		ll d = Point(l1.A, l1.B).cross(Point(l2.A, l2.B));
+		T dx = Point(l1.C, l1.B).cross(Point(l2.C, l2.B));
+		T dy = Point(l1.A, l1.C).cross(Point(l2.A, l2.C));
+		T d = Point(l1.A, l1.B).cross(Point(l2.A, l2.B));
 
 		if (d == 0 || (dx % d != 0) || (dy % d != 0)) return false;
 		
@@ -68,8 +78,9 @@ struct Seg {
 		return true;
 	}
 }; 
+// --------------------------------------------------------------------- 20959294248
 
-
+// --------------------------------------------------------------------- 
 struct Poly {
 	vector <Point> pts;
 
@@ -145,7 +156,7 @@ struct Poly {
 		return true;
 	}
 };
-
+// --------------------------------------------------------------------- 54512578721
 
 int main() {
 	// TESTES

@@ -2,6 +2,9 @@
 using namespace std;
 
 int main() {
+#ifdef LOCAL
+	freopen("input", "r", stdin);
+#endif
 	char a;
 	long long hash = 0;
 	long long base = 123;

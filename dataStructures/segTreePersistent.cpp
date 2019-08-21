@@ -1,3 +1,9 @@
+#include <bits/stdc++.h>
+#define MAXN 2010000
+using namespace std;
+
+int n;
+
 // ------------------------------------------------------------------------------ 
 struct Node {
 	int v;
@@ -17,8 +23,7 @@ struct Node {
 
 	Node(Node *l, Node *r) {
 		left = l, right = r;
-		Node res = merge(*l, *r);
-		copy(res);
+		copy(merge(*l, *r));
 	}
 
 } *seg[MAXN];
@@ -48,4 +53,9 @@ Node *build(int tl = 1, int tr = n) {
 	int tm = tl + (tr-tl)/2;
 	return new Node(build(tl, tm), build(tm+1, tr));
 }
-// ------------------------------------------------------------------------------ 30295129778
+// ------------------------------------------------------------------------------ 28490969333
+// hash n tem os comentários !!
+
+int main() {
+	return 0;
+}

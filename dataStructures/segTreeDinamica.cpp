@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 // ------------------------------------------------------------------------------ 
 struct Node {
 	int v, l, r;
@@ -15,12 +18,12 @@ struct Node {
 
 	Node merge(Node l, Node r) { // faca seu merge
 		Node res = Node();
-		res.v = l.v + r.v;
+		res.v = max(l.v, r.v);
 		return res;
 	}
 
 	inline void extend() {
-		if (!left) {
+		if (!left && l != r) {
 			int m = l+(r-l)/2;
 			left = new Node();
 			left->init(l, m);
@@ -31,7 +34,7 @@ struct Node {
 
 	Node query(int de, int para){
 		if (para < l || r < de) return Node(); //elemento neutro
-		if (de <= l && r <= para) return Node(val); // copia do atual
+		if (de <= l && r <= para) return Node(v); // copia do atual
 		extend();
 		return Node().merge(left->query(de, para), right->query(de, para));
 	}
@@ -42,8 +45,12 @@ struct Node {
 			return;
 		}
 		extend();
-		(idx <= left->r ? left : right)->update(idx);
+		(idx <= left->r ? left : right)->update(idx, val);
 		copy(merge(*left, *right));
 	}
 };
 // ------------------------------------------------------------------------------ 25298067790
+
+int main() {
+	return 0;
+}
