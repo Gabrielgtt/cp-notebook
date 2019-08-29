@@ -9,7 +9,6 @@ typedef long long T;
 
 ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a%b); }
 
-// -----------------------------------------------------------------------------
 struct Point {
 	T x, y;
 	Point(T a=0, T b=0) : x(a), y(b) {}
@@ -17,11 +16,19 @@ struct Point {
 
 	bool operator < (const Point& p) const { return x == p.x ? y < p.y : x < p.x; }
 
-	Point operator - (const Point& p) const { return Point(x - p.x, y - p.y); }
+	Point operator - (const Point& p) const { return {x - p.x, y - p.y}; }
+	
+	Point operator + (const Point& p) const { return {x + p.x, y + p.y}; }
+	
+	Point operator / (const T c) const { return {x / c, y / c}; }
+	
+	Point operator * (const T c) const { return {x * c, y * c}; }
 
 	Point vetor(const Point& o) const { return o - (*this); }
 
 	T dot(const Point& b) const { return (x*b.x) + (y*b.y); }
+	
+	T sq() const { return (x*x) + (y*y); }
 
 	T cross(const Point& b) const { return (x*b.y) - (y*b.x); }
 
@@ -33,7 +40,21 @@ struct Point {
 		return acos(1.0*a.dot(b) / sqrt(1.0*a.dot(a)*b.dot(b)));
 	}
 };
-// ----------------------------------------------------------------------------- 19928866531
+
+Point perp(Point p) {return {-p.y, p.x};}
+
+Point circumCenter(Point a, Point b, Point c) {
+	b = b-a, c = c-a;
+	return a + (perp(b*c.sq() - c*b.sq()) / b.cross(c)) / 2;
+}
+
+ostream& operator<< (ostream& os, Point p) {
+	return os << "("<< p.x << "," << p.y << ")";
+}
+
+template <typename F> int sgn(F x) {
+	return (F(0) < x) - (x < F(0));
+}
 
 struct Line {
 	T A, B, C;
@@ -161,12 +182,10 @@ struct Poly {
 int main() {
 	// TESTES
 	
-	Point a = Point(0, 0);
-	Point b = Point(1, 0);
-	Point c = Point(0, 1);
-	
+	Point a{0, 0}, b{1, 0}, c{0, 1};
 	double angulo = a.angle(c, b) * 180.0 / PI;
 	assert(angulo == 90.0);
-	
+
+	cout << a - b << endl;
 	return 0;
 }
