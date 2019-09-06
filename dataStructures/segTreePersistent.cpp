@@ -2,7 +2,7 @@
 #define MAXN 2010000
 using namespace std;
 
-int n;
+int N;
 
 // ------------------------------------------------------------------------------ 
 struct Node {
@@ -22,13 +22,16 @@ struct Node {
 	}
 
 	Node(Node *l, Node *r) {
+		// if (!l) l = new Node(); // para implicitas!
+		// if (!r) r = new Node(); // para implicitas!
 		left = l, right = r;
 		copy(merge(*l, *r));
 	}
 
 } *seg[MAXN];
 
-Node query(Node *v, int l, int r, int tl = 1, int tr = n){ // definir n global!!
+Node query(Node *v, int l, int r, int tl = 1, int tr = N){ // definir n global!!
+	// if (!v) v = new Node(); // para implicitas!
 	Node res = Node();
 	if (tl > r || tr < l) return res;
 	if (l <= tl && tr <= r) {
@@ -39,13 +42,14 @@ Node query(Node *v, int l, int r, int tl = 1, int tr = n){ // definir n global!!
 	return res.merge(query(v->left, l, r, tl, tm), query(v->right, l, r, tm+1, tr));
 }
 
-Node *update(Node *v, int pos, int val, int tl = 1, int tr = n){
+Node *update(Node *v, int pos, int val, int tl = 1, int tr = N){
+	// if (!v) v = new Node(); // para implicitas!
 	if (tl == tr) return new Node(val);
 	int tm = tl + (tr-tl)/2;
 	if (pos <= tm)
-		return new Node(update(v->left, pos, tl, tm), v->right);
+		return new Node(update(v->left, pos, val, tl, tm), v->right);
 	else  
-		return new Node(v->left, update(v->right, pos, tm+1, tr));
+		return new Node(v->left, update(v->right, pos, val, tm+1, tr));
 }
 
 Node *build(int tl = 1, int tr = n) {
@@ -53,7 +57,7 @@ Node *build(int tl = 1, int tr = n) {
 	int tm = tl + (tr-tl)/2;
 	return new Node(build(tl, tm), build(tm+1, tr));
 }
-// ------------------------------------------------------------------------------ 28490969333
+// ------------------------------------------------------------------------------
 // hash n tem os comentários !!
 
 int main() {
