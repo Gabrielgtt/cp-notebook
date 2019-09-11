@@ -30,6 +30,8 @@ struct Point {
 	
 	T sq() const { return (x*x) + (y*y); }
 
+	double dist(const Point& b) { return sqrt((b - *this).sq()); }
+
 	T cross(const Point& b) const { return (x*b.y) - (y*b.x); }
 
 	// ccw !	
@@ -117,15 +119,18 @@ struct Poly {
 		pts.pop_back();
 		sort(pts.begin(), pts.end());
 			
+		int sz = 0;
 		for (int i=0; i<pts.size(); i++) {
-			while (chain.size() >= 2 && chain[chain.size()-2].cross(chain[chain.size()-1], pts[i]) >= 0) chain.pop_back();
+			while (sz >= 2 && chain[sz-2].cross(chain[sz-1], pts[i]) >= 0) chain.pop_back(), sz--;
 			chain.emplace_back(pts[i]);
+			sz++;
 		}
 		
-		int ref = chain.size();
+		int ref = sz;
 		for (int i=pts.size()-2; i>=0; i--) {
-			while (chain.size()-ref >= 1 && chain[chain.size()-2].cross(chain[chain.size()-1], pts[i]) >= 0) chain.pop_back();
+			while (sz-ref >= 1 && chain[sz-2].cross(chain[sz-1], pts[i]) >= 0) chain.pop_back(), sz--;
 			chain.emplace_back(pts[i]);
+			sz++;
 		}
 
 		pts.emplace_back(pts[0]);
@@ -177,7 +182,7 @@ struct Poly {
 		return true;
 	}
 };
-// --------------------------------------------------------------------- 54512578721
+// ---------------------------------------------------------------------
 
 int main() {
 	// TESTES
@@ -185,7 +190,6 @@ int main() {
 	Point a{0, 0}, b{1, 0}, c{0, 1};
 	double angulo = a.angle(c, b) * 180.0 / PI;
 	assert(angulo == 90.0);
-
 	cout << a - b << endl;
 	return 0;
 }
