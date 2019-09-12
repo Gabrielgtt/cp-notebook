@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// ------------------------------------------------------------------------------ 
 struct Node {
 	int v, l, r, lazy;
 	Node *left, *right;
@@ -12,7 +16,7 @@ struct Node {
 		v = o.v;
 	}
 
-	Node merge(Node l, Node r) { 
+	Node merge(Node l, Node r) { // faca seu merge
 		Node res = Node();
 		res.v = l.v + r.v;
 		return res;
@@ -40,8 +44,8 @@ struct Node {
 
 	Node query(int de, int para){
 		extend();
-		if (para < l || r < de) return Node(); 
-		if (de <= l && r <= para) return Node(v); 
+		if (para < l || r < de) return Node(); //elemento neutro
+		if (de <= l && r <= para) return Node(v); // copia do atual
 		return Node().merge(left->query(de, para), right->query(de, para));
 	}
 
@@ -59,3 +63,19 @@ struct Node {
 	}
 
 } *root;
+// ------------------------------------------------------------------------------ 30931463913
+
+int main() {
+	int n = 10;
+	int arr[n] = {1, 3, 5, -3, 5, -3, 5, -3, 23, 53};
+	root = new Node();
+	root->init(0, 9);
+	for (int i=0; i<n; i++) {
+		root->update(i, i, arr[i]);
+	}
+	printf("%d\n", root->query(1, 3).v);
+	root->update(3, 5, 10);
+	root->update(0, 1, -3);
+	printf("%d\n", root->query(1, 3).v);
+	return 0;
+}

@@ -20,14 +20,12 @@ struct cmp_y {
     }
 };
 
-double mindist;
-ll res = 1e18;
+double mindist = 1e18; // a menor distancia vai ficar aqui no final
 
 inline void upd_ans(const pt & a, const pt & b) {
 	double dist = sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
 	if (dist < mindist) {
 		mindist = dist;
-		res = (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
 	}
 }
 
@@ -35,6 +33,7 @@ int n;
 vector<pt> arr;
 vector<pt> temp;
 
+// -----------------------------------------------------------------------------
 void rec(ll l, ll r) {
     if (r - l <= 3) {
         for (ll i = l; i < r; ++i) {
@@ -63,4 +62,9 @@ void rec(ll l, ll r) {
             temp[tsz++] = arr[i];
         }
     }
+}
+// ----------------------------------------------------------------------------- 17690314729
+
+int main() {
+	return 0;
 }

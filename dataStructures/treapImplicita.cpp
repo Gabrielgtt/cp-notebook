@@ -2,6 +2,7 @@
 #define MAXN 300000
 using namespace std;
 
+// ------------------------------------------------------------------------------
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 struct node {
@@ -67,6 +68,7 @@ void insert(pnode & t, int pos, int val) {
 	merge(t1, t1, new node(val, rng()));
 	merge(t, t1, t2);
 }
+// ------------------------------------------------------------------------------ 35343927739
 
 int main() {
 	pnode raiz = NULL;

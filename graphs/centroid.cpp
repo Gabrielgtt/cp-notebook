@@ -1,3 +1,4 @@
+// ------------------------------------------------------------------------------
 struct CentroidDecomposition {
 	int sub[MAXN];
 	bool sat[MAXN]; // Nodes saturados que n devem ser mais visitados
@@ -42,3 +43,4 @@ struct CentroidDecomposition {
 	}
 
 } ctrd;
+// ------------------------------------------------------------------------------ 22924838700

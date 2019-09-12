@@ -186,7 +186,6 @@ struct Poly {
 
 int main() {
 	// TESTES
-	
 	Point a{0, 0}, b{1, 0}, c{0, 1};
 	double angulo = a.angle(c, b) * 180.0 / PI;
 	assert(angulo == 90.0);

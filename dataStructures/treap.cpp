@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// ------------------------------------------------------------------------------
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 struct node {
@@ -11,7 +12,7 @@ struct node {
 };
 typedef node * pnode;
 
-void print(pnode no) {
+void print (pnode no) {
 	if (!no) return;
 	printf("%d\n", no->v);
 	print(no->l), print(no->r);
@@ -43,6 +44,7 @@ void merge (pnode & t, pnode l, pnode r) {
     else
         merge (r->l, l, r->l),  t = r;
 }
+// ------------------------------------------------------------------------------ 22819149183
 
 void erase (pnode & t, int v) {
     if (t->v == v)
