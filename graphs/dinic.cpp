@@ -73,3 +73,41 @@ struct dinic {
 // ------------------------------------------------------------------------------ 31271989117
 
 
+// ------------------------------------------------------------------------------ 
+vector <int> grafo[MAXN];
+bool vis[MAXN];
+
+void gogo(int v, vector <int> &mvc, bool left = true) {
+	vis[v] = true;
+	for (int u : grafo[v]) {
+		if (!vis[u]) {
+			if (left) mvc.emplace_back(u);
+			gogo(u, mvc, !left);
+		}
+	}
+}
+
+// Retorna um vector com os vertices do min vertex cover (dado que o fluxo já foi feito)
+vector <int> min_vertex_cover(int lx, int rx) {
+	for (int i=0; i<MAXN; i++) grafo[i].clear(), vis[i] = false;;
+	vector <int> starts;
+	for (int i=lx; i<=rx; i++) {
+		bool tem = false;
+		for (edge u : graph[i]) {
+			if (u.to >= MAXN-2) continue; // exclua os vértices de sink e source
+			if (u.cap == 0) {
+				tem = true;
+				grafo[u.to].emplace_back(i);	
+			} else {
+				grafo[i].emplace_back(u.to);
+			}
+		}
+		if (!tem) starts.emplace_back(i);
+	}
+	vector <int> res;
+	for (int v : starts) gogo(v, res);
+	for (int i=lx; i<=rx; i++) if (!vis[i]) res.emplace_back(i);
+	return res;
+}
+
+// ------------------------------------------------------------------------------ 
