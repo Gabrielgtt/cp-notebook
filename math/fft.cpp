@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+using cd = complex<double>;
+const double PI = acos(-1);
+
 // BLACK BOX START
 // ------------------------------------------------------------------------------ 
 void fft(vector<cd> & a, bool invert) {
@@ -59,7 +62,5 @@ vector<int> multiply(vector<int> const& a, vector<int> const& b) {
 }
 
 int main(){
-
-    
     return 0;
 }

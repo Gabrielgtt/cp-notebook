@@ -22,21 +22,12 @@ struct Node {
 		return res;
 	}
 
-	inline void extend() {
-		if (!left && l != r) {
-			int m = l+(r-l)/2;
-			left = new Node();
-			left->init(l, m);
-			right = new Node();
-			right->init(m+1, r);
-		}
-	}
-
 	Node query(int de, int para){
 		if (para < l || r < de) return Node(); //elemento neutro
 		if (de <= l && r <= para) return Node(v); // copia do atual
-		extend();
-		return Node().merge(left->query(de, para), right->query(de, para));
+		Node le = left ? left->query(de, para) : Node();
+		Node ri = right ? right->query(de, para) : Node();
+		return Node().merge(le, ri);
 	}
 
 	void update(int idx, int val){
@@ -44,12 +35,18 @@ struct Node {
 			copy(Node(val));
 			return;
 		}
-		extend();
-		(idx <= left->r ? left : right)->update(idx, val);
-		copy(merge(*left, *right));
+		int m = l+(r-l)/2;
+		if (idx <= m) {
+			if (!left) left = new Node(), left->init(l, m);
+			left->update(idx, val);
+		} else {
+			if (!right) right = new Node(), right->init(m+1, r);
+			right->update(idx, val);
+		}
+		copy(merge(left ? *left : Node(), right ? *right : Node()));
 	}
 };
-// ------------------------------------------------------------------------------ 26141053943
+// ------------------------------------------------------------------------------ 
 
 int main() {
 	return 0;

@@ -4,8 +4,8 @@ using namespace std;
 
 ll fastExpo(ll a, ll e) {
 	ll res = 1;
-	while (e) {
-		if (a & 1) res = res * a % MOD;
+	while (e > 0) {
+		if (e & 1) res = res * a % MOD;
 		a = a * a % MOD;
 		e >>= 1;
 	}
