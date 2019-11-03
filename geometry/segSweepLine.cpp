@@ -9,6 +9,7 @@ typedef pair <ll, ll> pll;
 const int N = 200000;
 const int MAXN = 400000;
 
+// ------------------------------------------------------------------------------ 
 pll stree[4 * MAXN];
 ll lazy[4 * MAXN];
 
@@ -61,6 +62,7 @@ pll query(int l, int r, int no = 1, int tl = 1, int tr = N) {
 	int tm = tl + (tr-tl)/2;
 	return merge(query(l, r, no*2, tl, tm), query(l, r, no*2+1, tm+1, tr));
 }
+// ------------------------------------------------------------------------------ 33072875954
 
 int main() {
 #ifdef LOCAL
@@ -77,13 +79,13 @@ int main() {
 	update(1, 1, 2);
 	// 3 1 3 5 3 3 3 3
 	pll q = query(1, 8);
-	printf("%lld %lld\n", q.ff, q.ss); // output 1 1
+	assert(q == make_pair(1LL, 1LL));
 	update(2, 2, 2);
 	// 3 3 3 5 3 3 3 3
 	update(-2, 4, 4);
 	// 3 3 3 3 3 3 3 3
 	q = query(1, 8);
-	printf("%lld %lld\n", q.ff, q.ss); // output 3 8
+	assert(q == make_pair(3LL, 8LL));
 	return 0;
 }
 

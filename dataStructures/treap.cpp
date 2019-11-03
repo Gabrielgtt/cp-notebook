@@ -73,7 +73,14 @@ int main() {
 	insert(raiz, new node(9, rng()));
 
 	pnode a, b, lixo;
-	erase(raiz, 7);
-	print(raiz);
+	split(raiz, 7, a, b);
+	printf("a: \n");
+	print(a); // 6 7
+	printf("b: \n");
+	print(b); // 8 9 12
+	erase(a, 7);
+	merge(raiz, a, b);
+	printf("raiz: \n");
+	print(raiz); // 8 6 9 12
 	return 0;
 }

@@ -52,14 +52,22 @@ Node *update(Node *v, int pos, int val, int tl = 1, int tr = N){
 		return new Node(v->left, update(v->right, pos, val, tm+1, tr));
 }
 
-Node *build(int tl = 1, int tr = n) {
+Node *build(int tl = 1, int tr = N) {
 	if (tl == tr) return new Node();
 	int tm = tl + (tr-tl)/2;
 	return new Node(build(tl, tm), build(tm+1, tr));
 }
-// ------------------------------------------------------------------------------ 27831142928
-// hash n tem os comentários !!
+// ------------------------------------------------------------------------------ 28187943869
+// hash nao tem nenhum dos comentários !!
 
 int main() {
+	N = 10;
+	seg[0] = build();
+	seg[1] = update(seg[0], 3, 4);
+	seg[2] = update(seg[1], 4, 5);
+	assert(query(seg[1], 0, 4).v == 4);
+	assert(query(seg[2], 0, 4).v == 9);
+	seg[3] = update(seg[2], 3, 1);
+	assert(query(seg[3], 0, 4).v == 6);
 	return 0;
 }

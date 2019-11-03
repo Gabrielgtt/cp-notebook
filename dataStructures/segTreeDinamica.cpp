@@ -46,8 +46,16 @@ struct Node {
 		copy(merge(left ? *left : Node(), right ? *right : Node()));
 	}
 };
-// ------------------------------------------------------------------------------ 
+// ------------------------------------------------------------------------------ 26858543009 
 
 int main() {
+	Node seg = Node();
+	int n = 10;
+	seg.init(0, n-1);
+	int arr[n] = {1, -1, 2, -4, 3, 5, 10, 3, -3, 5};
+	for (int i=0; i<n; i++) seg.update(i, arr[i]);
+	printf("%d\n", seg.query(0, n-1).v); // 10
+	seg.update(9, 100);
+	printf("%d\n", seg.query(0, n-1).v); // 100
 	return 0;
 }

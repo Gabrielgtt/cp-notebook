@@ -69,13 +69,14 @@ int main() {
 	int n = 10;
 	int arr[n] = {1, 3, 5, -3, 5, -3, 5, -3, 23, 53};
 	root = new Node();
-	root->init(0, 9);
+	root->init(0, n-1);
 	for (int i=0; i<n; i++) {
 		root->update(i, i, arr[i]);
 	}
-	printf("%d\n", root->query(1, 3).v);
+	assert(root->query(1, 3).v == 5);
 	root->update(3, 5, 10);
+	assert(root->query(1, 3).v == 15);
 	root->update(0, 1, -3);
-	printf("%d\n", root->query(1, 3).v);
+	assert(root->query(1, 3).v == 12);
 	return 0;
 }

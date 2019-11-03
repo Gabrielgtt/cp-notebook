@@ -7,6 +7,7 @@ using namespace std;
 int n;
 int seg[MAXN];
 
+// ------------------------------------------------------------------------------
 int query(int ql, int qr, int l = 0, int r = n-1, int node = 1) {
 	if (qr < l || r < ql) return -INF;
 	if (ql <= l && r <= qr) return seg[node];
@@ -36,4 +37,15 @@ void build(int array[], int l = 0, int r = n-1, int node = 1) {
 		build(array, mid+1, r, node*2+1);
 		seg[node] = max(seg[node*2], seg[node*2+1]);
 	}
+}
+// ------------------------------------------------------------------------------ 23763770108
+
+int main () {
+	int arr[10] = {1, -2, 4, 5, 34, 0, -23, 3, 25, -5};
+	n = 10;
+	build(arr);
+	assert(query(0, 3) == 5);
+	update(0, 12);
+	assert(query(0, 4) == 34);
+	return 0;
 }

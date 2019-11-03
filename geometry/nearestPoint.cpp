@@ -2,6 +2,8 @@
 #define ll long long
 using namespace std;
 
+const double EPS = 1e-9;
+
 struct pt {
     ll x, y;
 
@@ -66,5 +68,11 @@ void rec(ll l, ll r) {
 // ----------------------------------------------------------------------------- 17690314729
 
 int main() {
+	for (int i=0; i<4; i++) {
+		arr.emplace_back(i, i);
+	}
+	rec(0, 3);
+	assert(fabs(sqrt(2) - mindist) <= EPS);
+	printf("%.3f\n", mindist); // ~1.414 (sqrt(2));
 	return 0;
 }

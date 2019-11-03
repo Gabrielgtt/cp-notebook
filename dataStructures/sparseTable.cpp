@@ -29,11 +29,13 @@ struct SparseTable {
 } tb;
 // ------------------------------------------------------------------------------ 14631003288
 
-
 int main() {
-	int arr[10] = {1, 2, 3, 4, 1, 2, -2, 3, 4, 5};
+	int arr[10] = {1, 2, 3, -6, 1, 2, -2, 3, 4, 5};
 	n = 10;
 	tb.build(arr);
-	printf("%d\n", tb.query(1, 6));
+	assert(tb.query(1, 6) == -6);
+	assert(tb.query(0, 2) == 1);
+	assert(tb.query(7, 9) == 3);
+	assert(tb.query(9, 9) == 5);
 	return 0;
 }
