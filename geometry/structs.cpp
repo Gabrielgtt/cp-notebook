@@ -11,7 +11,9 @@ ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a%b); }
 
 struct Pt {
 	T x, y;
+
 	Pt(T a=0, T b=0) : x(a), y(b) {}
+
 	bool operator == (const Pt& p) const { return p.x == x && p.y == y; }
 
 	bool operator < (const Pt& p) const { return x == p.x ? y < p.y : x < p.x; }
@@ -24,7 +26,7 @@ struct Pt {
 	
 	Pt operator * (const T c) const { return {x * c, y * c}; }
 
-	Pt vetor(const Pt& o) const { return o - (*this); }
+	Pt vetor(const Pt& p) const { return p - (*this); }
 
 	T dot(const Pt& b) const { return (x*b.x) + (y*b.y); }
 	
@@ -34,16 +36,21 @@ struct Pt {
 
 	T cross(const Pt& b) const { return (x*b.y) - (y*b.x); }
 
-	// ccw !	
+	/*
+		CCW do vetor (this -> a) em relação ao ponto b
+		0, b for colienar ao vetor (this -> a) 
+		Negativo ou positivo dependendo do lado que b está do vetor
+	*/
 	T cross(const Pt& a, const Pt& b) const { return (a - *this).cross(b - *this); }
 	
-	double angle(Pt& a, Pt& b) const {
-		a = vetor(a), b = vetor(b);
-		return acos(1.0*a.dot(b) / sqrt(1.0*a.dot(a)*b.dot(b)));
+	double angle(Pt a, Pt b) const {
+		Pt va = a - (*this);
+		Pt vb = b - (*this);
+		return acos(1.0 * va.dot(vb) / sqrt(1.0 * va.dot(va) * vb.dot(vb)));
 	}
 };
 
-Pt perp(Pt p) {return {-p.y, p.x};}
+Pt perp(Pt p) { return {-p.y, p.x}; }
 
 Pt circumCenter(Pt a, Pt b, Pt c) {
 	b = b-a, c = c-a;
@@ -69,7 +76,9 @@ struct Line {
 	}
 };
 
-
+/*
+	Comparador de maior ou igual para double
+*/
 bool mORe(double a, double b) {
 	return a <= b || fabs(a - b) <= EPS;
 }
@@ -83,14 +92,12 @@ struct Seg {
 
 	T numIntegerPoints() { return gcd(abs(A.x - B.x), abs(A.y - B.y)) + 1LL; }
 
-
 	bool inDouble(const Pt& Pt) {
 		return mORe(min(A.x, B.x), Pt.x) 
 			&& mORe(Pt.x, max(A.x, B.x)) 
 			&& mORe(min(A.y, B.y), Pt.y)
 			&& mORe(Pt.y, max(A.y, B.y));
 	}
-
 
 	bool in(const Pt& Pt) {
 		return min(A.x, B.x) <= Pt.x 
