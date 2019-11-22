@@ -5,12 +5,12 @@ using namespace std;
 int n;
 // ------------------------------------------------------------------------------
 void maxQueue(int tam, int arr[]) {
-	deque <ii> que;
+	deque <ii> q;
 	for (int i=0; i<n; i++) {
-		while(!que.empty() && i - que.front().second >= tam) que.pop_front();
-		while(!que.empty() && que.back().first < arr[i]) que.pop_back();
-		que.emplace_back(arr[i], i);
-		printf("%d\n", que.front().first);
+		while(!q.empty() && i - q.front().second >= tam) q.pop_front();
+		while(!q.empty() && q.back().first < arr[i]) q.pop_back();
+		q.emplace_back(arr[i], i);
+		printf("%d\n", q.front().first);
 	}
 }
 // ------------------------------------------------------------------------------ 8955867935
