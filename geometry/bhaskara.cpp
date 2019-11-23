@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
- 
+
 // Retorna quantas raízes e deixa as raízes no out
 // ----------------------------------------------------------------------------- 
 int quadRoots(double a, double b, double c, pair<double,double> &out) {
