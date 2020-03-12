@@ -22,8 +22,8 @@ void mult(ll m1[][MAXN], ll m2[][MAXN], int n) {
 }
 
 void matrixExpo(ll m[][MAXN], ll e, int n) {
-	e--;
 	if (e == 0) printf("retornar neutro!\n");
+	e--;
 	ll base[MAXN][MAXN];
 	for (int i=0; i<n; i++)
 		for (int j=0; j<n; j++) 
@@ -34,4 +34,5 @@ void matrixExpo(ll m[][MAXN], ll e, int n) {
 		e >>= 1;
 	}
 }
-// ------------------------------------------------------------------------------ 19057841552
+// ------------------------------------------------------------------------------
+
