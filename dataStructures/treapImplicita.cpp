@@ -14,12 +14,6 @@ struct node {
 };
 typedef node * pnode;
 
-void print(pnode no) {
-	if (!no) return;
-	printf("%d\n", no->v);
-	print(no->l), print(no->r);
-}
-
 int soma(pnode t) {
 	return t ? t->soma : 0;
 }
@@ -29,7 +23,7 @@ void upd_soma(pnode t) {
 		t->soma = t->v + soma(t->l) + soma(t->r);
 }
 
-int cnt (pnode t) {
+int cnt(pnode t) {
     return t ? t->cnt : 0;
 }
 
@@ -70,6 +64,12 @@ void insert(pnode & t, int pos, int val) {
 }
 // ------------------------------------------------------------------------------ 35343927739
 
+void print(pnode no) {
+	if (!no) return;
+	printf("%d\n", no->v);
+	print(no->l), print(no->r);
+}
+
 int main() {
 	pnode raiz = NULL;
 
@@ -78,17 +78,18 @@ int main() {
 	insert(raiz, 3, 2);
 	insert(raiz, 4, 3);
 
-	print(raiz);
-	printf("soma da raiz = %d\n", soma(raiz));
-
 	pnode t1 = NULL, t2 = NULL;
 
 	split(raiz, t1, t2, 2);
-	printf("t1: %d\n", soma(t1));
-	print(t1);
-	printf("t2: %d\n", soma(t2));
-	print(t2);
+	assert(soma(t1) == 7);
+	assert(soma(t2) == 5);
 
+	pnode t11 = NULL, t12 = NULL;
+	split(t1, t11, t12, 1);
+	assert(soma(t11) == 4);
+
+	merge(raiz, t11, t2);
+	assert(soma(raiz) == 9);
 	
 	return 0;
 }

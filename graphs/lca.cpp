@@ -3,56 +3,60 @@
 #define MAXLOG 21
 using namespace std;
 
+int le[MAXN];
+int pa[MAXLOG][MAXN];
+static vector <int> grafo[MAXN];
 
-int level[MAXN];
-int papa[MAXLOG][MAXN];
-struct LCA {
-
-	LCA() {
-		memset(level, 0, sizeof level);
-		memset(papa, 0, sizeof papa);
+template < vector<int> grafo[MAXN] > struct LCA {
+	LCA(int n) {
+		memset(le, 0, sizeof le);
+		memset(pa, 0, sizeof pa);
 		dfs(1, 0);
-		build();
+		for (int i=1; i<MAXLOG; i++)
+			for (int j=1; j<=n; j++) // n = número de nodes no grafo
+				pa[i][j] = pa[i-1][pa[i-1][j]];
 	}
 
 	void dfs(int v, int p, int l = 0) {
 		for (int u : grafo[v]){
 			if (u != p) {
-				level[u] = l+1;
-				papa[0][u] = v;
+				le[u] = l+1;
+				pa[0][u] = v;
 				dfs(u, v, l+1);
 			}
 		}
 	}
 
-	void build() {
-		for (int i=1; i<MAXLOG; i++)
-			for (int j=1; j<=n; j++) // n = número de nodes no grafo
-				papa[i][j] = papa[i-1][papa[i-1][j]];
-	}
-
 	int dist(int u, int v) {
-		if (level[u] > level[v]) swap(u, v);
+		if (le[u] > le[v]) swap(u, v);
 		int res = 0;	
 		for (int i=MAXLOG-1; i>=0; i--){
-			if ((1 << i) <= (level[v] - level[u])) {
+			if ((1 << i) <= (le[v] - le[u])) {
 				res += 1 << i;
-				v = papa[i][v];
+				v = pa[i][v];
 			}
 		}
 		if (u == v) return res;
 		for (int i=MAXLOG-1; i>=0; i--)
-			if (papa[i][u] != papa[i][v]){
+			if (pa[i][u] != pa[i][v]) {
 				res += 1 << (i+1);
-				u = papa[i][u];
-				v = papa[i][v];
+				u = pa[i][u];
+				v = pa[i][v];
 			}
 		return res + 2;
 	}
-
 };
 
+
 int main() {
-	LCA lca = LCA();
+	grafo[1].emplace_back(3);
+	grafo[3].emplace_back(1);
+	grafo[1].emplace_back(2);
+	grafo[2].emplace_back(1);
+	grafo[3].emplace_back(4);
+	grafo[4].emplace_back(3);
+	LCA <grafo> lca(4);
+	assert(2 == lca.dist(1, 4));
+	assert(3 == lca.dist(2, 4));
 	return 0;
 }
