@@ -6,13 +6,11 @@ struct Node {
 	int v, l, r;
 	Node *left, *right;
 
-	Node(int val = 0) : left(NULL), right(NULL), v(val) {}
+	Node(int v_ = 0) : left(NULL), right(NULL), v(v_) {}
 
-	inline void init(int a, int b){
-		l = a, r = b;
-	}
+	inline void init(int a, int b) { l = a, r = b; }
 	
-	void copy(Node o) {
+	void copy(Node o) { // copie o necessario
 		v = o.v;
 	}
 
@@ -22,11 +20,11 @@ struct Node {
 		return res;
 	}
 
-	Node query(int de, int para){
-		if (para < l || r < de) return Node(); //elemento neutro
-		if (de <= l && r <= para) return Node(v); // copia do atual
-		Node le = left ? left->query(de, para) : Node();
-		Node ri = right ? right->query(de, para) : Node();
+	Node query(int d, int p){
+		if (p < l || r < d) return Node(); //elemento neutro
+		if (d <= l && r <= p) return Node(v); // copia do atual
+		Node le = left ? left->query(d, p) : Node();
+		Node ri = right ? right->query(d, p) : Node();
 		return Node().merge(le, ri);
 	}
 
@@ -54,8 +52,8 @@ int main() {
 	seg.init(0, n-1);
 	int arr[n] = {1, -1, 2, -4, 3, 5, 10, 3, -3, 5};
 	for (int i=0; i<n; i++) seg.update(i, arr[i]);
-	printf("%d\n", seg.query(0, n-1).v); // 10
+	assert(seg.query(0, n-1).v == 10);
 	seg.update(9, 100);
-	printf("%d\n", seg.query(0, n-1).v); // 100
+	assert(seg.query(0, n-1).v == 100);
 	return 0;
 }
