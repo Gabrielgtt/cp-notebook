@@ -17,15 +17,17 @@ template<int MOD> struct Hash {
 	string s;
 	vector<ll> h, power;
 	Hash() {}
+	// O(n) - Build hash of string s_
 	Hash(string s_): n(s_.size()), s(s_), h(n), power(n) {
 		power[0] = 1;
 		for (int i = 1; i < n; i++) power[i] = power[i-1]*P % MOD;
 		h[0] = s[0];
 		for (int i = 1; i < n; i++) h[i] = (h[i-1]*P + s[i]) % MOD;
 	}
-	ll operator()(int i, int j){ // returna hash da substring s[i..j]
-		if (!i) return h[j];
-		return (h[j] - h[i-1]*power[j-i+1] % MOD + MOD) % MOD;
+	// O(1) - return hash value of s[l..r]
+	ll operator()(int l, int r){
+		if (!l) return h[r];
+		return (h[r] - h[l-1]*power[r-l+1] % MOD + MOD) % MOD;
 	}
 };
 
@@ -33,11 +35,13 @@ template<int MOD> int Hash<MOD>::P = uniform(27, MOD-1);
 
 template<int MOD> struct Pali {
 	Hash <MOD> pre, suf;
+	// O(n) - Build preffix and suffix hash for s
 	Pali(string s) {
 		pre = Hash<MOD>(s);
 		reverse(s.begin(), s.end());
 		suf = Hash<MOD>(s);
 	}
+	// O(1) - return true if s[l..r] is palindrome, false otherwise
 	bool operator()(int l, int r) {
 		return pre(l, r) == suf(pre.n-1-r, pre.n-1-l);
 	}

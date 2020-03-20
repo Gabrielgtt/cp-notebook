@@ -4,14 +4,14 @@
 #define INF 1e9
 using namespace std;
 
-
 // ------------------------------------------------------------------------------ 
 int logs[MAXN];
 
 template <typename T>
 struct St {
 	vector<vector<T>> table;
-	St(T arr[], int n) {
+	// O(n*log(n)) - Build table from arr of size n
+	St(T arr[], int n) { 
 		logs[0] = logs[1] = 0;
 		for (int i=2; i<n; i++) logs[i] = logs[i/2]+1;
 		int lo = logs[n-1]+1;
@@ -21,7 +21,8 @@ struct St {
 			for (int i=0; i+(1<<j)<=n; i++)
 				table[j][i] = min(table[j-1][i], table[j-1][i+(1<<(j-1))]);
 	}
-	T query(int l, int r) {
+	// O(1) - Query [l..r]
+	T query(int l, int r) { 
 		if (l > r) swap(l, r);
 		return min(table[logs[r-l]][l], table[logs[r-l]][r - (1 << logs[r-l]) + 1]);
 	}
