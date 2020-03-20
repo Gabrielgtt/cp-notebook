@@ -1,14 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 struct node {
 	bool end;
-	node *prox[27];
-
+	node *ne[27];
 } *root = new node();
 
-void insert(const string& word) {
-	node *curr = root;
-	for (char l : word) {
-		if (!curr->prox[l-'a']) curr->prox[l-'a'] = new node();
-		curr = curr->prox[l-'a'];
+// O(n) - Insert wo in trie
+void insert(const string& wo) {
+	node *cu = root;
+	for (char l : wo) {
+		if (!cu->ne[l-'a']) cu->ne[l-'a'] = new node();
+		cu = cu->ne[l-'a'];
 	}
-	curr->end = true;
+	cu->end = true;
+}
+
+int main() {
+	string t = "teste", o = "outro";
+	insert(t);
+	insert(o);
+	node *cu = root;
+	for (char l : t) cu = cu->ne[l-'a'];
+	assert(cu->end);
+	return 0;
 }
