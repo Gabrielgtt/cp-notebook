@@ -12,10 +12,9 @@ struct node {
 };
 typedef node * pnode;
 
-void print (pnode no) {
-	if (!no) return;
-	printf("%d\n", no->v);
-	print(no->l), print(no->r);
+ostream& operator<< (ostream& os, pnode no) {
+	if (!no) return os << "";
+	return os << no->v << " " << no->l << no->r;
 }
 
 void split (pnode t, int v, pnode & l, pnode & r) {
@@ -74,13 +73,10 @@ int main() {
 
 	pnode a, b, lixo;
 	split(raiz, 7, a, b);
-	printf("a: \n");
-	print(a); // 6 7
-	printf("b: \n");
-	print(b); // 8 9 12
+	cout << "a = " << a << endl;
+	cout << "b = " << b << endl;
 	erase(a, 7);
 	merge(raiz, a, b);
-	printf("raiz: \n");
-	print(raiz); // 8 6 9 12
+	cout << "raiz = " << raiz << endl;
 	return 0;
 }

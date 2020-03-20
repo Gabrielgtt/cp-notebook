@@ -2,52 +2,49 @@
 using namespace std;
 
 // ------------------------------------------------------------------------------ 
-struct Node {
+struct No {
 	int v, l, r;
-	Node *left, *right;
+	No *le, *ri;
 
-	Node(int v_ = 0) : left(NULL), right(NULL), v(v_) {}
+	No(int v_ = 0) : le(NULL), ri(NULL), v(v_) {}
 
 	inline void init(int a, int b) { l = a, r = b; }
 	
-	void copy(Node o) { // copie o necessario
+	void copy(No o) { // copie o necessario
 		v = o.v;
 	}
 
-	Node merge(Node l, Node r) { // faca seu merge
-		Node res = Node();
+	No merge(No l, No r) { // faca seu merge
+		No res = No();
 		res.v = max(l.v, r.v);
 		return res;
 	}
 
-	Node query(int d, int p){
-		if (p < l || r < d) return Node(); //elemento neutro
-		if (d <= l && r <= p) return Node(v); // copia do atual
-		Node le = left ? left->query(d, p) : Node();
-		Node ri = right ? right->query(d, p) : Node();
-		return Node().merge(le, ri);
+	No query(int d, int p){
+		if (p < l || r < d) return No(); //elemento neutro
+		if (d <= l && r <= p) return No(v); // copia do atual
+		No left = le ? le->query(d, p) : No();
+		No right = ri ? ri->query(d, p) : No();
+		return No().merge(left, right);
 	}
 
 	void update(int idx, int val){
-		if (l == r){
-			copy(Node(val));
-			return;
-		}
-		int m = l+(r-l)/2;
+		if (l == r) { copy(No(val)); return; }
+		int m = l+((r-l)>>1);
 		if (idx <= m) {
-			if (!left) left = new Node(), left->init(l, m);
-			left->update(idx, val);
+			if (!le) le = new No(), le->init(l, m);
+			le->update(idx, val);
 		} else {
-			if (!right) right = new Node(), right->init(m+1, r);
-			right->update(idx, val);
+			if (!ri) ri = new No(), ri->init(m+1, r);
+			ri->update(idx, val);
 		}
-		copy(merge(left ? *left : Node(), right ? *right : Node()));
+		copy(merge(le ? *le : No(), ri ? *ri : No()));
 	}
 };
-// ------------------------------------------------------------------------------ 26858543009 
+// ------------------------------------------------------------------------------
 
 int main() {
-	Node seg = Node();
+	No seg = No();
 	int n = 10;
 	seg.init(0, n-1);
 	int arr[n] = {1, -1, 2, -4, 3, 5, 10, 3, -3, 5};
@@ -55,5 +52,6 @@ int main() {
 	assert(seg.query(0, n-1).v == 10);
 	seg.update(9, 100);
 	assert(seg.query(0, n-1).v == 100);
+	printf("Tudo certo!\n");
 	return 0;
 }

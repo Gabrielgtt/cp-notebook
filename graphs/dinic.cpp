@@ -26,11 +26,9 @@ struct dinic {
         queue<int> q;
         level[s] = 0;
         q.push(s);
-
         while( !q.empty() ) {
             int actual = q.front();
             q.pop();
-
             for(int i = 0; i < graph[actual].size(); i++) {
                 edge &e = graph[actual][i];
                 if(e.cap > 0 && level[e.to] < 0){
@@ -43,7 +41,6 @@ struct dinic {
 
     int dfs(int v, int t, int f) {
         if(v == t) return f;
-
         for(int &i = iter[v]; i < graph[v].size(); i++) {
             edge &e = graph[v][i];
             if(e.cap > 0 && level[v] < level[e.to]){
@@ -63,7 +60,6 @@ struct dinic {
         while(true){
             bfs(start);
             if(level[to] < 0) return ans;
-            
             int f;
             memset(iter, 0, sizeof iter);
             while((f = dfs(start, to, INF)) > 0) ans += f;

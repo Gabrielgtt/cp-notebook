@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define MAXN 300000
 using namespace std;
 
 // ------------------------------------------------------------------------------
@@ -14,27 +13,20 @@ struct node {
 };
 typedef node * pnode;
 
-int soma(pnode t) {
-	return t ? t->soma : 0;
-}
+int soma(pnode t) { return t ? t->soma : 0; }
 
 void upd_soma(pnode t) {
-	if (t)
-		t->soma = t->v + soma(t->l) + soma(t->r);
+	if (t) t->soma = t->v + soma(t->l) + soma(t->r);
 }
 
-int cnt(pnode t) {
-    return t ? t->cnt : 0;
-}
+int cnt(pnode t) { return t ? t->cnt : 0; }
 
 void upd_cnt (pnode t) {
-    if (t)
-        t->cnt = 1 + cnt(t->l) + cnt (t->r);
+    if (t) t->cnt = 1 + cnt(t->l) + cnt (t->r);
 }
 
 void split (pnode t, pnode & l, pnode & r, int key, int add = 0) {
-    if (!t)
-        return void( l = r = 0 );
+    if (!t) return void( l = r = 0 );
     int cur_key = add + cnt(t->l); //implicit key
     if (key <= cur_key)
         split (t->l, l, t->l, key, add),  r = t;
@@ -46,14 +38,11 @@ void split (pnode t, pnode & l, pnode & r, int key, int add = 0) {
 
 
 void merge (pnode & t, pnode l, pnode r) {
-    if (!l || !r)
-        t = l ? l : r;
-    else if (l->prior > r->prior)
-        merge (l->r, l->r, r),  t = l;
-    else
-        merge (r->l, l, r->l),  t = r;
-    upd_cnt (t);
-	upd_soma (t);
+    if (!l || !r) t = l ? l : r;
+    else if (l->prior > r->prior) merge (l->r, l->r, r), t = l;
+    else merge (r->l, l, r->l), t = r;
+    upd_cnt(t);
+	upd_soma(t);
 }
 
 void insert(pnode & t, int pos, int val) {
@@ -64,10 +53,9 @@ void insert(pnode & t, int pos, int val) {
 }
 // ------------------------------------------------------------------------------ 35343927739
 
-void print(pnode no) {
-	if (!no) return;
-	printf("%d\n", no->v);
-	print(no->l), print(no->r);
+ostream& operator<< (ostream& os, pnode no) {
+	if (!no) return os << "";
+	return os << no->v << " " << no->l << no->r;
 }
 
 int main() {
@@ -90,6 +78,6 @@ int main() {
 
 	merge(raiz, t11, t2);
 	assert(soma(raiz) == 9);
-	
+	printf("Tudo certo!\n");
 	return 0;
 }
