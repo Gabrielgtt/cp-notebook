@@ -1,38 +1,55 @@
 #include <bits/stdc++.h>
 #define ll long long
-#define MOD 1000000007
-#define MAXN 1000
 using namespace std;
 
+const int MOD = 1000000007;
+const int MAXN = 1000;
+
 // ------------------------------------------------------------------------------ 
-ll soma(ll a, ll b) { return (a + b) % MOD; }
+template <typename T>
+T aux[MAXN][MAXN];
 
-ll mult(ll a, ll b) { return (a * b) % MOD; }
+template <typename T>
+struct maex {
+	T so(T a, T b) { return (a + b) % MOD; }
 
-ll aux[MAXN][MAXN];
-void mult(ll m1[][MAXN], ll m2[][MAXN], int n) {
-	memset(aux, 0, sizeof aux);
-	for (int i=0; i<n; i++)
-		for (int j=0; j<n; j++)
-			for (int z=0; z<n; z++)
-				aux[i][j] = soma(aux[i][j], mult(m1[i][z], m2[z][j]));
-	for (int i=0; i<n; i++)
-		for (int j=0; j<n; j++)
-			m1[i][j] = aux[i][j];
-}
+	T mu(T a, T b) { return (a * b) % MOD; }
 
-void matrixExpo(ll m[][MAXN], ll e, int n) {
-	if (e == 0) printf("retornar neutro!\n");
-	e--;
-	ll base[MAXN][MAXN];
-	for (int i=0; i<n; i++)
-		for (int j=0; j<n; j++) 
-			base[i][j] = m[i][j];
-	while (e) {
-		if (e & 1) mult(m, base, n);
-		mult(base, base, n);
-		e >>= 1;
+	void mu(T m1[][MAXN], T m2[][MAXN], int n) {
+		memset(aux<T>, 0, sizeof aux<T>);
+		for (int i=0; i<n; i++)
+			for (int j=0; j<n; j++)
+				for (int z=0; z<n; z++)
+					aux<T>[i][j] = so(aux<T>[i][j], mu(m1[i][z], m2[z][j]));
+		for (int i=0; i<n; i++)
+			for (int j=0; j<n; j++)
+				m1[i][j] = aux<T>[i][j];
 	}
-}
+
+	maex(T m[][MAXN], T e, int n) {
+		if (e == 0) printf("retornar neutro!\n");
+		e--;
+		T ba[MAXN][MAXN];
+		for (int i=0; i<n; i++)
+			for (int j=0; j<n; j++) 
+				ba[i][j] = m[i][j];
+		while (e) {
+			if (e & 1) mu(m, ba, n);
+			mu(ba, ba, n);
+			e >>= 1;
+		}
+	}
+};
 // ------------------------------------------------------------------------------
 
+
+int ma[MAXN][MAXN];
+int main() {
+	ma[0][0] = 1; // Fibo
+	ma[0][1] = 1;
+	ma[1][0] = 1;
+	ma[1][1] = 0;
+	maex(ma, 6, 2);
+	assert(ma[0][0] == 13);
+	return 0;
+}
