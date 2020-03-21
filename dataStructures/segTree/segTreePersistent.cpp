@@ -52,7 +52,7 @@ Node *update(Node *v, int pos, int val, int tl = 1, int tr = N){
 		return new Node(v->left, update(v->right, pos, val, tm+1, tr));
 }
 
-Node *build(int tl = 1, int tr = N) {
+Node *build(int tl = 1, int tr = N) { // para NAO implicitas!
 	if (tl == tr) return new Node();
 	int tm = tl + (tr-tl)/2;
 	return new Node(build(tl, tm), build(tm+1, tr));
