@@ -1,18 +1,18 @@
-int gcd_ex(int a, int b, int& x, int& y) { 
-    if (a == 0) { 
-        x = 0;
-        y = 1;
-        return b;
-    } 
-    int x1, y1;
-	int gcd = gcd_ex(b%a, a, x1, y1); 
-    x = y1 - (b/a) * x1; 
-    y = x1;
-    return gcd;
-} 
+ll gcdExtended(ll a, ll b, ll& x, ll& y) {
+    x = 1, y = 0;
+    ll x1 = 0, y1 = 1, a1 = a, b1 = b;
+    while (b1) {
+        ll q = a1 / b1;
+        tie(x, x1) = make_tuple(x1, x - q * x1);
+        tie(y, y1) = make_tuple(y1, y - q * y1);
+        tie(a1, b1) = make_tuple(b1, a1 - q * b1);
+    }
+    return a1;
+}
 
-int mod_inv(int a, int m) {
-	int x, y;
-	gcd_ex(a, m, x, y);
-	return (x % m + m) % m;
+ll modularInverse(ll a, ll mod = MOD) {
+	ll x, y;
+	ll g = gcdExtended(a, mod, x, y);
+	assert(g == 1);
+	return (x % mod + mod) % mod;
 }
