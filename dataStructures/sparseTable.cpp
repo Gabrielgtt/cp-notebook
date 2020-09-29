@@ -6,7 +6,6 @@ using namespace std;
 
 // ------------------------------------------------------------------------------ 
 int logs[MAXN];
-
 template <typename T>
 struct St {
 	vector<vector<T>> table;

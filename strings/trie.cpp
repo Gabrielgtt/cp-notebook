@@ -2,26 +2,34 @@
 using namespace std;
 
 struct node {
-	bool end;
-	node *ne[27];
-} *root = new node();
+    bool end;
+	int ne[27];
+    node() {
+        end = false;
+        memset(ne, -1, sizeof ne);
+    }
+};
 
-// O(n) - Insert wo in trie
-void insert(const string& wo) {
-	node *cu = root;
-	for (char l : wo) {
-		if (!cu->ne[l-'a']) cu->ne[l-'a'] = new node();
-		cu = cu->ne[l-'a'];
+vector <node> trie({node()});
+
+void insert(const string& word) {
+    int a = 0;
+	for (char l : word) {
+		if (trie[a].ne[l-'a'] == -1) {
+            trie[a].ne[l-'a'] = trie.size();
+            trie.emplace_back(node());
+        }
+		a = trie[a].ne[l-'a'];
 	}
-	cu->end = true;
+    trie[a].end = true;
 }
 
 int main() {
 	string t = "teste", o = "outro";
 	insert(t);
 	insert(o);
-	node *cu = root;
-	for (char l : t) cu = cu->ne[l-'a'];
-	assert(cu->end);
+	int a = 0;
+	for (char l : t) a = trie[a].ne[l-'a'];
+	assert(trie[a].end);
 	return 0;
 }
