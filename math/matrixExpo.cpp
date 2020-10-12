@@ -27,13 +27,11 @@ struct maex {
 	}
 
 	maex(T m[][MAXN], T e, int n) {
-		if (e == 0) { m[0][0] = 0; return; }
-        if (e == 1) return;
-        e -= 2;
 		T ba[MAXN][MAXN];
 		for (int i=0; i<n; i++)
 			for (int j=0; j<n; j++) 
-				ba[i][j] = m[i][j];
+				ba[i][j] = m[i][j],
+				m[i][j] = i == j ? 1 : 0;
 		while (e) {
 			if (e & 1) mu(m, ba, n);
 			mu(ba, ba, n);
