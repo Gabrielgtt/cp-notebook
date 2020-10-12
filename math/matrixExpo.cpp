@@ -3,7 +3,7 @@
 using namespace std;
 
 const int MOD = 1000000007;
-const int MAXN = 1000;
+const int MAXN = 51;
 
 // ------------------------------------------------------------------------------ 
 template <typename T>
@@ -27,8 +27,9 @@ struct maex {
 	}
 
 	maex(T m[][MAXN], T e, int n) {
-		if (e == 0) printf("retornar neutro!\n");
-		e--;
+		if (e == 0) { m[0][0] = 0; return; }
+        if (e == 1) return;
+        e -= 2;
 		T ba[MAXN][MAXN];
 		for (int i=0; i<n; i++)
 			for (int j=0; j<n; j++) 
@@ -49,7 +50,7 @@ int main() {
 	ma[0][1] = 1;
 	ma[1][0] = 1;
 	ma[1][1] = 0;
-	maex(ma, 6, 2);
+	maex <int> (ma, 6, 2);
 	assert(ma[0][0] == 13);
 	return 0;
 }
