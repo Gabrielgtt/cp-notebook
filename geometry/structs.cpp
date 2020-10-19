@@ -135,26 +135,6 @@ struct Poly {
 	}
 
 	vector <Pt> convexHull() {
-		vector <Pt> chain;
-		pts.pop_back();
-		sort(pts.begin(), pts.end());
-			
-		int sz = 0;
-		for (int i=0; i<pts.size(); i++) {
-			while (sz >= 2 && chain[sz-2].cross(chain[sz-1], pts[i]) >= 0) chain.pop_back(), sz--;
-			chain.emplace_back(pts[i]);
-			sz++;
-		}
-		
-		int ref = sz;
-		for (int i=pts.size()-2; i>=0; i--) {
-			while (sz-ref >= 1 && chain[sz-2].cross(chain[sz-1], pts[i]) >= 0) chain.pop_back(), sz--;
-			chain.emplace_back(pts[i]);
-			sz++;
-		}
-
-		pts.emplace_back(pts[0]);
-		return chain;
 	}
 
 	bool tiraConvexHull() {
