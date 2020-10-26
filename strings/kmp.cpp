@@ -13,12 +13,10 @@ vector <int> matches(string &p, string &w) {
     };
     int ts = p.size() + w.size() + 2;
     kmp.resize(ts);
-    int i = 0, j = -1;
     kmp[0] = -1;
-    while(i < ts){
+    for (int i=0, j=-1; i < ts;) { 
         while(j >= 0 && ch(i) != ch(j)) j = kmp[j];
-        i++; j++;
-        kmp[i] = j;
+        kmp[++i] = ++j;
     }
     vector <int> res;
     for (int i=0; i<kmp.size(); i++)
