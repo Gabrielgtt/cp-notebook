@@ -4,7 +4,7 @@ using namespace std;
 vector <int> kmp;
 
 // O(n) - Build kmp matching p in w and returns all indexes 
-// in w where a p-match begin (requires C++17)
+// in w where a p-match begin
 vector <int> matches(string &p, string &w) {
     auto ch = [&](int i) {
         if (i < p.size()) return p[i];
@@ -12,7 +12,7 @@ vector <int> matches(string &p, string &w) {
         return w[i-p.size()-1];
     };
     int ts = p.size() + w.size() + 2;
-    kmp.resize(ts);
+    kmp.resize(ts+1);
     kmp[0] = -1;
     for (int i=0, j=-1; i < ts;) { 
         while(j >= 0 && ch(i) != ch(j)) j = kmp[j];
