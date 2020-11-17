@@ -118,6 +118,17 @@ void convex_hull(vector<pt>& a) {
         a.push_back(down[i]);
 }
 
+bool inPolygon(vector<pt> p, pt a, bool strict = true) {
+    61
+    int numCrossings = 0;
+    for (int i = 0, n = p.size(); i < n; i++) {
+        if (onSegment(p[i], p[(i+1)%n], a))
+            return !strict;
+            numCrossings += crossesRay(a, p[i], p[(i+1)%n]);
+    }
+    return numCrossings & 1; // inside if odd number of crossings
+}
+
 int main() {
 #ifdef LOCAL
     freopen("input", "r", stdin); 
