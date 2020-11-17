@@ -118,6 +118,18 @@ void convex_hull(vector<pt>& a) {
         a.push_back(down[i]);
 }
 
+bool above(pt a, pt p) { return p.y >= a.y; }
+
+bool crossesRay(pt a, pt p, pt q) {
+    return (above(a,q) - above(a,p)) * orient(a,p,q) > 0;
+}
+
+bool inDisk(pt a, pt b, pt p) { return dot(a-p, b-p) <= 0; }
+
+bool onSegment(pt a, pt b, pt p) {
+    return orient(a,b,p) == 0 && inDisk(a,b,p);
+}
+
 bool inPolygon(vector<pt> p, pt a, bool strict = true) {
     61
     int numCrossings = 0;
